@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pizzeria/models/option_item.dart';
 import 'package:pizzeria/models/pizza.dart';
 import 'package:pizzeria/ui/share/buy_button_widget.dart';
 import 'package:pizzeria/ui/share/pizzeria_style.dart';
@@ -53,6 +54,16 @@ class _PizzaDetailsState extends State<PizzaDetails> {
   }
 }
 
+_buildDropDownItem(List<OptionItem> list){
+  return Iterable.generate(
+    list.length,
+      (i) => DropdownMenuItem<OptionItem>(
+        value: list[i],
+        child: Text(list[i].name),
+      ),
+  ).toList();
+}
+
 _buildDropDownPates(){
   return DropdownButton<OptionItem>(
     isExpanded: true,
@@ -61,6 +72,32 @@ _buildDropDownPates(){
     onChanged: (item){
       setState((){
         widget._pizza.pate = item!.value;
+      });
+    },
+  );
+}
+
+_buildDropDownTailles(){
+  return DropdownButton<OptionItem>(
+    isExpanded: true,
+    value: Pizza.tailles[widget._pizza.taille],
+    items: _buildDropDownItem(Pizza.tailles),
+    onChanged: (item){
+      setState((){
+        widget._pizza.taille = item!.value;
+      });
+    },
+  );
+}
+
+_buildDropDownSauces(){
+  return DropdownButton<OptionItem>(
+    isExpanded: true,
+    value: Pizza.sauces[widget._pizza.sauce],
+    items: _buildDropDownItem(Pizza.sauces),
+    onChanged: (item){
+      setState((){
+        widget._pizza.sauce = item!.value;
       });
     },
   );
