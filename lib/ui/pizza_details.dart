@@ -18,13 +18,14 @@ class _PizzaDetailsState extends State<PizzaDetails> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Pizza ${widget._pizza.title}'
+            'Pizza ${widget._pizza.title}'
         ),
       ),
       body: ListView(
         padding: EdgeInsets.all(4.0),
         children: [
-          Text('Pizza ${widget._pizza.title}', style: PizzeriaStyle.pageTitleTextStyle,),
+          Text('Pizza ${widget._pizza.title}',
+            style: PizzeriaStyle.pageTitleTextStyle,),
           Image.asset(
             'assets/images/pizzas/${widget._pizza.image}',
             height: 180,
@@ -36,7 +37,8 @@ class _PizzaDetailsState extends State<PizzaDetails> {
               widget._pizza.garniture,
             ),
           ),
-          Text('Pâte et taille sélectionnées', style: PizzeriaStyle.headerTextStyle,),
+          Text('Pâte et taille sélectionnées',
+            style: PizzeriaStyle.headerTextStyle,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -44,25 +46,64 @@ class _PizzaDetailsState extends State<PizzaDetails> {
               Expanded(child: _buildDropDownTailles()),
             ],
           ),
-          Text('Sauce(s) séléctionnée(s)', style: PizzeriaStyle.headerTextStyle),
+          Text(
+              'Sauce(s) séléctionnée(s)', style: PizzeriaStyle.headerTextStyle),
           _buildDropDownSauces(),
-          Text('${widget._pizza.price} €', style: PizzeriaStyle.headerTextStyle),
+          Text(
+              '${widget._pizza.price} €', style: PizzeriaStyle.headerTextStyle),
           BuyButtonWidget(),
         ],
       ),
     );
   }
+
+  _buildDropDownPates() {
+    return DropdownButton<OptionItem>(
+      isExpanded: true,
+      value: Pizza.pates[widget._pizza.pate],
+      items: _buildDropDownItem(Pizza.pates),
+      onChanged: (item) {
+        setState(() {
+          widget._pizza.pate = item!.value;
+        });
+      },
+    );
+  }
+
+  _buildDropDownTailles() {
+    return DropdownButton<OptionItem>(
+      isExpanded: true,
+      value: Pizza.tailles[widget._pizza.taille],
+      items: _buildDropDownItem(Pizza.tailles),
+      onChanged: (item){
+        setState((){
+          widget._pizza.taille = item!.value;
+        });
+      },
+    );
+  }
+
+  _buildDropDownSauces() {
+    return DropdownButton<OptionItem>(
+      isExpanded: true,
+      value: Pizza.sauces[widget._pizza.sauce],
+      items: _buildDropDownItem(Pizza.sauces),
+      onChanged: (item){
+        setState((){
+          widget._pizza.sauce = item!.value;
+        });
+      },
+    );
+  }
+
+  _buildDropDownItem(List<OptionItem> list) {
+    return Iterable.generate(
+      list.length,
+        (i) => DropdownMenuItem<OptionItem>(
+            value: list[i],
+            child: Text(list[i].name),
+        ),
+    ).toList();
+  }
 }
 
-_buildDropDownPates(){
-  return DropdownButton<OptionItem>(
-    isExpanded: true,
-    value: Pizza.pates[widget._pizza.pate],
-    items: _buildDropDownItem(Pizza.pates),
-    onChanged: (item){
-      setState((){
-        widget._pizza.pate = item!.value;
-      });
-    },
-  );
-}
