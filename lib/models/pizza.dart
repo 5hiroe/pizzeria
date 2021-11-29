@@ -11,6 +11,16 @@ class Pizza {
   int taille = 1;
   int sauce = 0;
 
+  double get total {
+    double total = price;
+
+    total += pates[pate].supplement;
+    total += tailles[taille].supplement;
+    total += sauces[sauce].supplement;
+
+    return total;
+  }
+
   static final List<OptionItem> pates = [
     OptionItem(0, "Pâte fine"),
     OptionItem(1, "Pâte épaisse", supplement: 2),
@@ -27,4 +37,11 @@ class Pizza {
   ];
 
   Pizza(this.id, this.title, this.garniture, this.image, this.price);
+  Pizza.fromJson(Map<String, dynamic> json)
+  : id = json["id"],
+    title = json["title"],
+    garniture = json["garniture"],
+    image = json["image"],
+    price = json["price"];
+
 }

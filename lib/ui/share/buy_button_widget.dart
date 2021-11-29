@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pizzeria/models/cart.dart';
+import 'package:pizzeria/models/pizza.dart';
 
 class BuyButtonWidget extends StatelessWidget {
-  const BuyButtonWidget({Key? key}) : super(key: key);
+  final Pizza _pizza;
+  final Cart _cart;
+  const BuyButtonWidget(this._pizza, this._cart, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,8 @@ class BuyButtonWidget extends StatelessWidget {
             ],
           ),
           onPressed: (){
-            print("COmmander une pizza");
+            print("Commander une pizza");
+            _cart.addProduct(_pizza);
           },
         )
       ],
